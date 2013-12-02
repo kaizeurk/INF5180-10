@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+  <persistence-unit name="Model">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>java:/app/jdbc/jdbc/INF5180-10DS</jta-data-source>
+    <class>model.Article</class>
+    <class>model.Cartecredit</class>
+    <class>model.Categorie</class>
+    <class>model.Client</class>
+    <class>model.Commande</class>
+    <class>model.Comptebancaire</class>
+    <class>model.Detaillivraison</class>
+    <class>model.Facture</class>
+    <class>model.Lignecommande</class>
+    <class>model.Livraison</class>
+    <class>model.Paiement</class>
+    <class>model.Paiementparcarte</class>
+    <class>model.Paiementparcheque</class>
+    <class>model.Statut</class>
+    <properties>
+      <property name="eclipselink.target-server" value="WebLogic_10"/>
+      <property name="javax.persistence.jtaDataSource" value="java:/app/jdbc/jdbc/INF5180-10DS"/>
+    </properties>
+  </persistence-unit>
+</persistence>
