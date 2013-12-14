@@ -15,7 +15,8 @@ import java.sql.Date;
 
 public class GestionCommande{
     private Connection uneConnection;
-    
+    private Commande commande;
+    private double montantTotal;
     // Constructeur pour connexion passee par le createur
     public GestionCommande(Connection laConnection){
         this.uneConnection = laConnection;
@@ -49,8 +50,8 @@ public class GestionCommande{
       }
       for (Iterator<Map> it = _commande.getArticleList().entrySet().iterator(); it.hasNext();) {
             Map.Entry entry = (Map.Entry) it.next();
-            int key = (int) entry.getKey();
-            int value = (int) entry.getValue();
+            int key = (Integer) entry.getKey();
+            int value = (Integer) entry.getValue();
             unEnonceSQL = uneConnection.prepareStatement
             ("INSERT INTO LigneCommande (noCommande, noArticle, quantite, prixNegocie) VALUES(?,?,?,null)");
             unEnonceSQL.setInt(1, _commande.getNocommande());
@@ -83,7 +84,7 @@ public class GestionCommande{
      * @return
      * @throws Exception
      */
-    public Commande consulterCommande(Date date)
+    public Commande consulterCommande(Date _date, int _noClient, String _motPass )
         throws Exception {
             Commande c = null;
             PreparedStatement unEnonceSQL = uneConnection.prepareStatement
@@ -124,7 +125,9 @@ public class GestionCommande{
              "    AND LV.NOCOMMANDE (+) = L.NOCOMMANDE \n" +
              "    AND LV.NOARTICLE (+) = L.NOARTICLE \n" +
              "ORDER BY LC.NOCLIENT, A.NOARTICLE;");
-            unEnonceSQL.setString(1,date.toString());
+            unEnonceSQL.setInt(1,_noClient);
+            unEnonceSQL.setString(2,_motPass);
+            unEnonceSQL.setDate(3,_date);
             ResultSet resultatSelect = unEnonceSQL.executeQuery();
             return c;
     }
@@ -171,11 +174,13 @@ public class GestionCommande{
             "    AND LV.NOARTICLE (+) = L.NOARTICLE \n" +
             "ORDER BY LC.NOCLIENT, A.NOARTICLE;");
             unEnonceSQL.setInt(1,_noClient);
-            unEnonceSQL.setString(3,_motPass);
+            unEnonceSQL.setString(2,_motPass);
             unEnonceSQL.setInt(3,_noCommande);
             ResultSet resultatSelect = unEnonceSQL.executeQuery();
             return c;
     }
     
-    
+   public void toString(ResultSet resultatSelect){
+      
+   }   
 }

@@ -6,8 +6,10 @@ import java.math.BigDecimal;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -41,7 +43,7 @@ public class Commande implements Serializable {
     @XmlTransient
     @OneToMany
     @JoinColumn(name = "NOARTICLE")
-    private ArrayList<Article> articleList;
+    private Map articleList;
     @OneToOne
     private Statut statut;
 
@@ -53,7 +55,7 @@ public class Commande implements Serializable {
         this.datecommande = datecommande;
         this.client = client;
         this.nocommande = nocommande;
-        this.articleList = new ArrayList<Article>();
+        this.articleList = new Hashtable();
     }
 
 
@@ -100,11 +102,11 @@ public class Commande implements Serializable {
         return buffer.toString();
     }
 
-    public ArrayList<Article> getArticleList() {
+    public Map getArticleList() {
         return articleList;
     }
 
-    public void setArticleList(ArrayList<Article> articleList) {
+    public void setArticleList(Map articleList) {
         this.articleList = articleList;
     }
 
@@ -115,4 +117,11 @@ public class Commande implements Serializable {
     public void setStatut(Statut statut) {
         this.statut = statut;
     }
+    public void ajouteArticle(Article art, int quantite){
+        articleList.put(new Integer(art.getNoarticle()),new Integer(quantite));
+    }
+    public void supprimerArticle(Article art){
+        articleList.remove(art.getNoarticle());
+    }
+    
 }
