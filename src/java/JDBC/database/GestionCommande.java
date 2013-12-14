@@ -7,12 +7,11 @@ import JDBC.model.Commande;
 import java.sql.*;
 import java.util.*;
 import java.sql.Date;
+
 /**
  *
- * @author kaizeurk*/
-
-
-
+ * @author kaizeurk
+ */
 public class GestionCommande{
     private Connection uneConnection;
     private Commande commande;
@@ -50,8 +49,8 @@ public class GestionCommande{
       }
       for (Iterator<Map> it = _commande.getArticleList().entrySet().iterator(); it.hasNext();) {
             Map.Entry entry = (Map.Entry) it.next();
-            int key = (Integer) entry.getKey();
-            int value = (Integer) entry.getValue();
+            int key = (int) entry.getKey();
+            int value = (int) entry.getValue();
             unEnonceSQL = uneConnection.prepareStatement
             ("INSERT INTO LigneCommande (noCommande, noArticle, quantite, prixNegocie) VALUES(?,?,?,null)");
             unEnonceSQL.setInt(1, _commande.getNocommande());
@@ -103,31 +102,31 @@ public class GestionCommande{
              "        FROM STATUT S\n" +
              "        WHERE C.CODESTATUT = S.CODESTATUT)STATUT_COMMANDE,\n" +
              "       A.NOARTICLE ,\n" +
-             "       A.DESCRIPTION DESCRIPTION_ARTICLE,\n" +
-             "       A.PRIXUNITAIRE PRIX_UNTIAIRE,\n" +
+             "       A.DESCRIPTION             DESCRIPTION_ARTICLE,\n" +
+             "       A.PRIXUNITAIRE            PRIX_UNTIAIRE,\n" +
              "       (CASE  \n" +
              "        WHEN L.PRIXNEGOCIE > 0.0 THEN L.PRIXNEGOCIE\n" +
              "        ELSE A.PRIXUNITAIRE \n" +
-             "        END ) PRIX_UNTAIRE_A_PAYER,\n" +
-             "        L.QUANTITE QUANTITE_COMMANDE,\n" +
+             "        END )                    PRIX_UNTAIRE_A_PAYER,\n" +
+             "        L.QUANTITE               QUANTITE_COMMANDE,\n" +
              "        NVL(LV.QUANTITELIVREE,0) QUANTITELIVREE\n" +
              "FROM COMMANDE C,\n" +
              "     CLIENT LC,\n" +
              "     LIGNECOMMANDE L,\n" +
              "     ARTICLE A,\n" +
              "     LIVREE LV\n" +
-             "WHERE LC.NOCLIENT = ?\n" +
-             "    AND LC.MOTDEPASSE = ?\n" +
-             "    AND C.DATECOMMANDE = ?\n" +
-             "    AND LC.NOCLIENT = C.NOCLIENT\n" +
-             "    AND L.NOCOMMANDE = C.NOCOMMANDE\n" +
-             "    AND A.NOARTICLE = L.NOARTICLE\n" +
+             "WHERE LC.NOCLIENT         = ?\n" +
+             "    AND LC.MOTDEPASSE     = ?\n" +
+             "    AND C.DATECOMMANDE    = ?\n" +
+             "    AND LC.NOCLIENT       = C.NOCLIENT\n" +
+             "    AND L.NOCOMMANDE      = C.NOCOMMANDE\n" +
+             "    AND A.NOARTICLE       = L.NOARTICLE\n" +
              "    AND LV.NOCOMMANDE (+) = L.NOCOMMANDE \n" +
-             "    AND LV.NOARTICLE (+) = L.NOARTICLE \n" +
+             "    AND LV.NOARTICLE  (+) = L.NOARTICLE \n" +
              "ORDER BY LC.NOCLIENT, A.NOARTICLE;");
-            unEnonceSQL.setInt(1,_noClient);
-            unEnonceSQL.setString(2,_motPass);
-            unEnonceSQL.setDate(3,_date);
+            unEnonceSQL.setInt    (1,_noClient);
+            unEnonceSQL.setString (2,_motPass);
+            unEnonceSQL.setDate   (3,_date);
             ResultSet resultatSelect = unEnonceSQL.executeQuery();
             return c;
     }
@@ -144,6 +143,7 @@ public class GestionCommande{
             "       DETAILLIVRAISON D\n" +
             "  WHERE LI.NOLIVRAISON = D.NOLIVRAISON\n" +
             "  GROUP BY D.NOCOMMANDE,D.NOARTICLE )\n" +
+                    
             "SELECT LC.NOCLIENT,\n" +
             "       LC.NOMCLIENT,\n" +
             "       L.NOCOMMANDE,\n" +
@@ -151,36 +151,55 @@ public class GestionCommande{
             "        FROM STATUT S\n" +
             "        WHERE C.CODESTATUT = S.CODESTATUT)STATUT_COMMANDE,\n" +
             "       A.NOARTICLE ,\n" +
-            "       A.DESCRIPTION DESCRIPTION_ARTICLE,\n" +
-            "       A.PRIXUNITAIRE PRIX_UNTIAIRE,\n" +
+            "       A.DESCRIPTION              DESCRIPTION_ARTICLE,\n" +
+            "       A.PRIXUNITAIRE             PRIX_UNTIAIRE,\n" +
             "       (CASE  \n" +
             "        WHEN L.PRIXNEGOCIE > 0.0 THEN L.PRIXNEGOCIE\n" +
             "        ELSE A.PRIXUNITAIRE \n" +
-            "        END ) PRIX_UNTAIRE_A_PAYER,\n" +
-            "        L.QUANTITE QUANTITE_COMMANDE,\n" +
+            "        END )                    PRIX_UNTAIRE_A_PAYER,\n" +
+            "        L.QUANTITE               QUANTITE_COMMANDE,\n" +
             "        NVL(LV.QUANTITELIVREE,0) QUANTITELIVREE\n" +
             "FROM COMMANDE C,\n" +
             "     CLIENT LC,\n" +
             "     LIGNECOMMANDE L,\n" +
             "     ARTICLE A,\n" +
             "     LIVREE LV\n" +
-            "WHERE LC.NOCLIENT = ?\n" +
-            "    AND LC.MOTDEPASSE = ?\n" +
-            "    AND C.NOCOMMANDE = ?\n" +
-            "    AND LC.NOCLIENT = C.NOCLIENT\n" +
-            "    AND L.NOCOMMANDE = C.NOCOMMANDE\n" +
-            "    AND A.NOARTICLE = L.NOARTICLE\n" +
+            "WHERE LC.NOCLIENT         = ?\n" +
+            "    AND LC.MOTDEPASSE     = ?\n" +
+            "    AND C.NOCOMMANDE      = ?\n" +
+            "    AND LC.NOCLIENT       = C.NOCLIENT\n" +
+            "    AND L.NOCOMMANDE      = C.NOCOMMANDE\n" +
+            "    AND A.NOARTICLE       = L.NOARTICLE\n" +
             "    AND LV.NOCOMMANDE (+) = L.NOCOMMANDE \n" +
-            "    AND LV.NOARTICLE (+) = L.NOARTICLE \n" +
+            "    AND LV.NOARTICLE  (+) = L.NOARTICLE \n" +
             "ORDER BY LC.NOCLIENT, A.NOARTICLE;");
-            unEnonceSQL.setInt(1,_noClient);
-            unEnonceSQL.setString(2,_motPass);
-            unEnonceSQL.setInt(3,_noCommande);
+            unEnonceSQL.setInt    (1,_noClient);
+            unEnonceSQL.setString (2,_motPass);
+            unEnonceSQL.setInt    (3,_noCommande);
             ResultSet resultatSelect = unEnonceSQL.executeQuery();
             return c;
     }
     
-   public void toString(ResultSet resultatSelect){
-      
+   public void toString(ResultSet resultatSelect) throws SQLException{
+       double sommeTotal = 0.0;
+       int quantiteTotal = 0;
+       while (resultatSelect.next ()){
+            int    lenoCommande      = resultatSelect.getInt    ("NOCOMMANDE");
+            int    lenoClient        = resultatSelect.getInt    ("NOMCLIENT");
+            String statut            = resultatSelect.getString ("STATUT_COMMANDE");
+            int    noArticle         = resultatSelect.getInt    ("NOARTICLE");
+            String desArt            = resultatSelect.getString ("DESCRIPTION_ARTICLE");
+            double prixU             = resultatSelect.getDouble ("PRIX_UNTIAIRE");
+            double prixUAPayer       = resultatSelect.getDouble ("PRIX_UNTAIRE_A_PAYER");
+            int    quantiteCommande  = resultatSelect.getInt    ("QUANTITE_COMMANDE");
+            int    quantiteLivree    = resultatSelect.getInt    ("QUANTITELIVREE");
+                   sommeTotal        = sommeTotal + (prixUAPayer*quantiteCommande);
+                   quantiteTotal     = quantiteTotal + quantiteCommande;
+
+            System.out.println ("noCommande:" + lenoCommande);
+           //System.out.println ("dateCommande:" + laDate);
+            System.out.println ("noClient:" + lenoClient);
+       }
    }   
 }
+
