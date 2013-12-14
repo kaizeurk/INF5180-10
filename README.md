@@ -1,4 +1,0 @@
-INF5180-10
-==========
-
-BASE DE DONNEES
