@@ -49,8 +49,8 @@ public class GestionCommande{
       }
       for (Iterator<Map> it = _commande.getArticleList().entrySet().iterator(); it.hasNext();) {
             Map.Entry entry = (Map.Entry) it.next();
-            int key = (int) entry.getKey();
-            int value = (int) entry.getValue();
+            int key = (Integer) entry.getKey();
+            int value = (Integer) entry.getValue();
             unEnonceSQL = uneConnection.prepareStatement
             ("INSERT INTO LigneCommande (noCommande, noArticle, quantite, prixNegocie) VALUES(?,?,?,null)");
             unEnonceSQL.setInt(1, _commande.getNocommande());
