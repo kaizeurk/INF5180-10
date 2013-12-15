@@ -200,6 +200,20 @@ public class GestionCommande{
            //System.out.println ("dateCommande:" + laDate);
             System.out.println ("noClient:" + lenoClient);
        }
+   }
+   
+      public boolean clientExist(int _noClient, String _motPass) throws SQLException, Exception{
+       PreparedStatement unEnonceSQL = uneConnection.prepareStatement
+               ("select noClient from client where noClient = ? and motDePasse = ?");
+       unEnonceSQL.setInt    (1,_noClient);
+       unEnonceSQL.setString (2,_motPass);
+       ResultSet resultatSelect = unEnonceSQL.executeQuery();
+       if(resultatSelect.getInt("noClient") != _noClient){
+                unEnonceSQL.close();
+                throw new Exception("Erreur sur la table Client indentifient/motpasse incorrecte");  
+       }
+       
+       return true;
    }   
 }
 
