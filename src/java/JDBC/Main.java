@@ -26,8 +26,11 @@ public class Main {
     public static void main(String[] args){
         
         char choix;
+        int numeroClient;
+        String pwd;
         Connection uneConnection;
         JDBCconnection uneInstance = new JDBCconnection("dg791281", "SBHfyMkA");
+        
         uneConnection = uneInstance.getInstance();
         //PreparedStatement unEnonceSQL = uneConnection.prepareStatement
         //("SELECT * FROM CLIENT");
@@ -44,7 +47,15 @@ public class Main {
                 choix =  clavier.next().charAt(0);
             }
             
+            if (choix == '1'){
+                System.out.print("\n\t\tVeuillez entrer votre numero client : ");
+                numeroClient = clavier.nextInt();
+                System.out.print("\n\t\tVeuillez entrer votre mot de passe : ");
+                pwd = clavier.next();
+                
             
+            
+            }
             
          } while(choix != '3');
     
