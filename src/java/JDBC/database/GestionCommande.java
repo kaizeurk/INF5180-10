@@ -42,7 +42,7 @@ public class GestionCommande{
       unEnonceSQL.setInt(3, _commande.getClient().getNoclient());
       int up = unEnonceSQL.executeUpdate();
       
-      if(up == 0 ){
+      if(up == 0){
             unEnonceSQL.close();
             throw new Exception("Erreur sur la table Commande");  
       }else{
