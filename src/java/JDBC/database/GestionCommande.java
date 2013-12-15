@@ -41,7 +41,7 @@ public class GestionCommande{
       unEnonceSQL.setInt(3, _commande.getClient().getNoclient());
       int up = unEnonceSQL.executeUpdate();
       
-      if(up == 0 ){
+      if(up == 0){
             unEnonceSQL.close();
             throw new Exception("Erreur sur la table Commande");  
       }else{
@@ -49,8 +49,8 @@ public class GestionCommande{
       }
       for (Iterator<Map> it = _commande.getArticleList().entrySet().iterator(); it.hasNext();) {
             Map.Entry entry = (Map.Entry) it.next();
-            int key = (int) entry.getKey();
-            int value = (int) entry.getValue();
+            int key = (Integer) entry.getKey();
+            int value = (Integer) entry.getValue();
             unEnonceSQL = uneConnection.prepareStatement
             ("INSERT INTO LigneCommande (noCommande, noArticle, quantite, prixNegocie) VALUES(?,?,?,null)");
             unEnonceSQL.setInt(1, _commande.getNocommande());

@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
  * @author kaizeurk
  */
 public class JDBCconnection {
+   
 
   /**
   * URL de connection
@@ -23,31 +24,76 @@ public class JDBCconnection {
   /**
   * Nom du user
   */
-  private static String user = "hc791240";
+  private String user = "";
 
   /**
   * Mot de passe du user
   */
-  private static String passwd = "QHBDfdrx";
+  private String passwd = "";
 
   /**
   * Objet Connection
   */
-  private static Connection connect;
+  private Connection connect;
 
+  /**
+  * Constructeur
+  */
+  public JDBCconnection(String _user, String _passwd){
+      this.user = _user;
+      this.passwd = _passwd;
+    
+    }
+  
   /**
   * Méthode qui va retourner notre instance
   * et la créer si elle n'existe pas...
   * @return
   */
-  public static Connection getInstance(){
-    if(connect == null){
+  public Connection getInstance(){
+    if( getConnect() == null){
       try {
-        connect = DriverManager.getConnection(url, user, passwd);
+            this.connect = DriverManager.getConnection(url, getUser(), getPasswd());
       } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, e.getMessage(), "ERREUR DE CONNEXION ! ", JOptionPane.ERROR_MESSAGE);
       }
     }		
-    return connect;	
+    return this.connect;	
   }
+
+    /**
+     * @return the user
+     */
+    public String getUser() {
+        return user;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    /**
+     * @return the passwd
+     */
+    public String getPasswd() {
+        return passwd;
+    }
+
+    /**
+     * @param passwd the passwd to set
+     */
+    public void setPasswd(String passwd) {
+        this.passwd = passwd;
+    }
+
+    /**
+     * @return the connect
+     */
+    public Connection getConnect() {
+        return connect;
+    }
+    
 }
