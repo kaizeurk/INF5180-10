@@ -1,49 +1,19 @@
 package JDBC.model;
 
-import java.io.Serializable;
-
-import java.math.BigDecimal;
-
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-
-import javax.persistence.OneToMany;
-
-import javax.xml.bind.annotation.XmlTransient;
-
-@Entity
-@NamedQueries({ @NamedQuery(name = "Article.findAll", query = "select o from Article o") })
-public class Article implements Serializable {
-    private static final long serialVersionUID = 7063075448323579531L;
-    @Column(length = 20)
+public class Article {
+    
     private String description;
-    @Id
-    @Column(nullable = false)
     private int noarticle;
-    @Column(nullable = false)
     private double prixunitaire;
-    @Column(nullable = false)
     private int quantite;
-    @Column(length = 100)
     private String url;
-    @XmlTransient
-    @ManyToOne
-    @JoinColumn(name = "CODECATEGORIE")
     private Categorie categorie;
 
     public Article() {
+        
     }
 
-    public Article(Categorie categorie, String description, int noarticle, double prixunitaire,
-                   int quantite, String url) {
+    public Article(Categorie categorie, String description, int noarticle, double prixunitaire, int quantite, String url) {
         this.categorie = categorie;
         this.description = description;
         this.noarticle = noarticle;
@@ -51,7 +21,6 @@ public class Article implements Serializable {
         this.quantite = quantite;
         this.url = url;
     }
-
 
     public String getDescription() {
         return description;
@@ -92,19 +61,15 @@ public class Article implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
-
-
-    @XmlTransient
+    
     public Categorie getCategorie() {
         return categorie;
     }
 
-    @XmlTransient
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
     }
 
-    @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer();
         buffer.append(getClass().getName() + "@" + Integer.toHexString(hashCode()));

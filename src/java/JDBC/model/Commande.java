@@ -1,60 +1,25 @@
 package JDBC.model;
 
-import java.io.Serializable;
-
-import java.math.BigDecimal;
-
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 import java.util.Hashtable;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import javax.xml.bind.annotation.XmlTransient;
-
-@Entity
-@NamedQueries({ @NamedQuery(name = "Commande.findAll", query = "select o from Commande o") })
-public class Commande implements Serializable {
-    private static final long serialVersionUID = 3366700937014838413L;
-    @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
+public class Commande {
+    
     private Date datecommande;
-    @Id
-    @Column(nullable = false)
     private int nocommande;
-    @XmlTransient
-    @ManyToOne
-    @JoinColumn(name = "NOCLIENT")
-    private Client client;
-    @XmlTransient
-    @OneToMany
-    @JoinColumn(name = "NOARTICLE")
+    private int noClient;
     private Map articleList;
-    @OneToOne
-    private Statut statut;
+    private String codeStatut;
 
     public Commande() {
     }
 
-    public Commande(Statut statut, Date datecommande, Client client, int nocommande) {
-        this.statut = statut;
-        this.datecommande = datecommande;
-        this.client = client;
+    public Commande(int nocommande, Date datecommande, int noClient, String codeStatut) {
         this.nocommande = nocommande;
+        this.datecommande = datecommande;
+        this.noClient = noClient;
+        this.codeStatut = codeStatut;
         this.articleList = new Hashtable();
     }
 
@@ -76,18 +41,14 @@ public class Commande implements Serializable {
         this.nocommande = nocommande;
     }
 
-    @XmlTransient
-    public Client getClient() {
-        return client;
+    public int getClient() {
+        return noClient;
     }
 
-    @XmlTransient
     public void setClient(Client client) {
-        this.client = client;
+        this.noClient = client.getNoclient();
     }
 
-
-    @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer();
         buffer.append(getClass().getName() + "@" + Integer.toHexString(hashCode()));
@@ -110,18 +71,20 @@ public class Commande implements Serializable {
         this.articleList = articleList;
     }
 
-    public Statut getStatut() {
-        return statut;
+    public String getStatut() {
+        return codeStatut;
     }
 
-    public void setStatut(Statut statut) {
-        this.statut = statut;
+    public void setStatut(String codeStatut) {
+        this.codeStatut = codeStatut;
     }
-    public void ajouteArticle(Article art, int quantite){
-        articleList.put(new Integer(art.getNoarticle()),new Integer(quantite));
+    
+    public void ajouterArticle(int numArticle, int quantite){
+        articleList.put(new Integer(numArticle),new Integer(quantite));
     }
-    public void supprimerArticle(Article art){
-        articleList.remove(art.getNoarticle());
+    
+    public void supprimerArticle(int numArticle){
+        articleList.remove(numArticle);
     }
     
 }

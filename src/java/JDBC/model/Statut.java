@@ -26,6 +26,8 @@ public class Statut implements Serializable {
     private String desstatut;
 
     public Statut() {
+        this.codestatut = null;
+        this.desstatut = null;
     }
 
     public Statut(String codestatut, String desstatut) {

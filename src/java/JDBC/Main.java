@@ -3,9 +3,14 @@
  * and open the template in the editor.
  */
 package JDBC;
+import JDBC.database.GestionCommande;
+import JDBC.model.Commande;
 import java.util.Scanner;
+import java.util.Date;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 /**
@@ -18,47 +23,55 @@ public class Main {
         System.out.println("\t\t1 - Passer une commande ");
         System.out.println("\t\t2 - Consulter les commandes ");
         System.out.println("\t\t3 - Quitter ");
-        
         System.out.print("\n\t\tVeuillez choisir une option : ");
     }
 
-
-    public static void main(String[] args){
+    /**
+     * 
+     * Methode main
+     *  
+     */
+    public static void main(String[] args) throws Exception{
         
         char choix;
-        int numeroClient;
-        String pwd;
+        int numeroClient = 0;
+        String pwd = "";
+        int cpteurCommande;
         Connection uneConnection;
         JDBCconnection uneInstance = new JDBCconnection("dg791281", "SBHfyMkA");
         
         uneConnection = uneInstance.getInstance();
-        //PreparedStatement unEnonceSQL = uneConnection.prepareStatement
-        //("SELECT * FROM CLIENT");
-        
-        //String note;
+        GestionCommande gestionCommande = new GestionCommande(uneConnection);
         Scanner clavier = new Scanner(System.in);
         
         do {
             afficherMenuOption();
             choix =  clavier.next().charAt(0);
-            while (choix < '1' || choix > '3') {
+            while (choix < '1' || choix > '3'){
                 System.out.println("\n\t\tErreur!!! La valeur entrée ne correspond à aucune option valide");
                 afficherMenuOption();
-                choix =  clavier.next().charAt(0);
+                choix = clavier.next().charAt(0);
             }
             
-            if (choix == '1'){
-                System.out.print("\n\t\tVeuillez entrer votre numero client : ");
-                numeroClient = clavier.nextInt();
-                System.out.print("\n\t\tVeuillez entrer votre mot de passe : ");
-                pwd = clavier.next();
+            switch (choix){
+                case ('1') :
+                    
+                    cpteurCommande = gestionCommande.recupererNbreCommandes(uneConnection);
+                    gestionCommande.authentifierClient(numeroClient, pwd, uneConnection);
+                    Commande uneCommande = new Commande (cpteurCommande++, new Date(), numeroClient, null);
+                    gestionCommande.ajoutArticles(uneCommande, uneConnection);
+                    gestionCommande.passerCommande(uneCommande);
+                    break;
                 
-            
-            
+                case ('2') :
+                    
+                    gestionCommande.authentifierClient(numeroClient, pwd, uneConnection); 
+                    System.out.print("\n\tEntrez le numero de la commande : ");
+                    int noCommande = clavier.nextInt();
+                    ResultSet resultat = gestionCommande.consulterCommande(noCommande, numeroClient, pwd);
+                    gestionCommande.toString(resultat);          
             }
             
          } while(choix != '3');
-    
-    
     }
 }
